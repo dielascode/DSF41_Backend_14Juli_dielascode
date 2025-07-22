@@ -40,8 +40,16 @@ async function login() {
             await balance(name);
         }else if(number === '2'){
             await deposit(name);
+        }else if(number === '3'){
+            //
+        }else if(number === '4'){
+            //
+        }else if(number === '5'){
+            //
+        }else{
+            console.log('Menu tidak tersedia');
         }
-        
+
 
         // console.log('Apa yang ingin anda lakukan selanjutnya?')
         // console.log('2. Deposit')

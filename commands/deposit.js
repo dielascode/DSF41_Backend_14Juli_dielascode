@@ -5,11 +5,12 @@ const bcrypt = require('bcrypt');
 const session = require('../session');
 
 async function deposit(name) {
-    const uang = readline.question('Masukkan nominal uang yang ingin ditambahkan: ');
+    let uang = readline.question('Masukkan nominal uang yang ingin ditambahkan: ');
     const [result] = await db.execute(
         'SELECT * FROM accounts WHERE name=?', [name]
     );
     let newbalance;
+    let amout = parseInt(uang);
     const uangsekarang = result[0].balance;
     console.log('jumlah uang sekarang', uangsekarang)
     if (uangsekarang === null) {
@@ -22,7 +23,10 @@ async function deposit(name) {
     const [resultnew] = await db.execute( //1 function
         'UPDATE accounts SET balance = ? WHERE name = ?', [newbalance, name]
     );
-    if (!resultnew) {
+    const [result2] = await db.execute( //2 function
+        'INSERT INTO transactions (account_id, type, amount, target_id) VALUES (?, ?, ?, ?)', [result[0].id, 'deposit', amout, null]
+    );
+    if (!resultnew && !result2) {
         console.log('Gagal melakukan deposit');
     } else {
         console.log('Berhasil melakukan deposit');
