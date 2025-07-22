@@ -18,7 +18,7 @@ async function login() {
             exit;
         }
         const user = result[0];
-        console.log(result);
+        // console.log(result);
         const pins = await bcrypt.compare(pin, user.pin);
         if (!pins) {
             console.log('pin salah, silahkan login kembali');
@@ -27,6 +27,37 @@ async function login() {
 
         session.setUser(user);
         console.log('Selamat datang, ',name)
+        console.log('Apa yang ingin anda lakukan selanjutnya?')
+        console.log('1. Cek saldo')
+        console.log('2. Deposit')
+        console.log('3. Transfer')
+        console.log('4. Cek histori akun anda')
+        console.log('5. Keluar')
+        const number = readline.question('Masukkan anka sesuai dengan menu yang tersedia: ');
+        if (number === '1') {
+            const [result] = await db.execute(
+                'SELECT * FROM accounts WHERE name=?', [name]
+                );
+                if(result[0].balance === null){
+                    console.log('Saldo anda kosong');
+                }else{
+                    console.log('Saldo anda adalah: ', result[0].balance);
+                }
+        }else if(number === '2'){
+            const uang = readline.question('Masukkan nominal uang yang ingin ditambahkan: ');
+            const balance = result[0].balance + parseInt(uang);
+            const result = await db.execute(
+                'UPDATE accounts SET balance = ? WHERE name = ?', [balance, name]
+            );
+            console.log("Uang sudah ditambahkan");
+        }
+
+        // console.log('Apa yang ingin anda lakukan selanjutnya?')
+        // console.log('2. Deposit')
+        // console.log('3. Transfer')
+        // console.log('4. Cek histori akun anda')
+        // console.log('5. Keluar')
+        // const number = readline.question('Masukkan anka sesuai dengan menu yang tersedia: ');
     } catch (error) {
         console.log('Akun tidak ditemukan, silahkan login kembali', error.message)
         exit;
