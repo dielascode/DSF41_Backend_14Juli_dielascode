@@ -3,6 +3,7 @@ const db = require('../db');
 const bcrypt = require('bcrypt');
 // const login = require('./login');
 const session = require('../session');
+const balance = require('./balance');
 
 async function login() {
     console.log('Login ke akun anda terlebih dahulu, dengan nama dan pin yang anda masukkan tadi');
@@ -35,14 +36,7 @@ async function login() {
         console.log('5. Keluar')
         const number = readline.question('Masukkan anka sesuai dengan menu yang tersedia: ');
         if (number === '1') {
-            const [result] = await db.execute(
-                'SELECT * FROM accounts WHERE name=?', [name]
-            );
-            if(result[0].balance === null){
-                console.log('Saldo anda kosong');
-            }else{
-                console.log('Saldo anda adalah: ', result[0].balance);
-            }
+            await balance();
         }else if(number === '2'){
             const uang = readline.question('Masukkan nominal uang yang ingin ditambahkan: ');
             const [result] = await db.execute(
