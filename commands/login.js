@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 // const login = require('./login');
 const session = require('../session');
 const balance = require('./balance');
+const deposit = require('./deposit');
 
 async function login() {
     console.log('Login ke akun anda terlebih dahulu, dengan nama dan pin yang anda masukkan tadi');
@@ -38,28 +39,7 @@ async function login() {
         if (number === '1') {
             await balance(name);
         }else if(number === '2'){
-            const uang = readline.question('Masukkan nominal uang yang ingin ditambahkan: ');
-            const [result] = await db.execute(
-                'SELECT * FROM accounts WHERE name=?', [name]
-            );
-            let newbalance;
-            const uangsekarang = result[0].balance;
-            console.log('jumlah uang sekarang', uangsekarang)
-            if(uangsekarang === null){
-                newbalance = parseInt(uang);
-                console.log(newbalance)
-            }else{
-                newbalance = parseInt(uangsekarang) + parseInt(uang);
-                console.log(newbalance)
-            }
-            const [resultnew] = await db.execute( //1 function
-                'UPDATE accounts SET balance = ? WHERE name = ?', [newbalance, name]
-            );
-            if(!resultnew){
-                console.log('Gagal melakukan deposit');
-            }else{
-                console.log('Berhasil melakukan deposit');
-            }
+            await deposit(name);
         }
 
         // console.log('Apa yang ingin anda lakukan selanjutnya?')
