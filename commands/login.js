@@ -37,19 +37,35 @@ async function login() {
         if (number === '1') {
             const [result] = await db.execute(
                 'SELECT * FROM accounts WHERE name=?', [name]
-                );
-                if(result[0].balance === null){
-                    console.log('Saldo anda kosong');
-                }else{
-                    console.log('Saldo anda adalah: ', result[0].balance);
-                }
+            );
+            if(result[0].balance === null){
+                console.log('Saldo anda kosong');
+            }else{
+                console.log('Saldo anda adalah: ', result[0].balance);
+            }
         }else if(number === '2'){
             const uang = readline.question('Masukkan nominal uang yang ingin ditambahkan: ');
-            const balance = result[0].balance + parseInt(uang);
-            const result = await db.execute(
-                'UPDATE accounts SET balance = ? WHERE name = ?', [balance, name]
+            const [result] = await db.execute(
+                'SELECT * FROM accounts WHERE name=?', [name]
             );
-            console.log("Uang sudah ditambahkan");
+            let newbalance;
+            const uangsekarang = result[0].balance;
+            console.log('jumlah uang sekarang', uangsekarang)
+            if(uangsekarang === null){
+                newbalance = parseInt(uang);
+                console.log(newbalance)
+            }else{
+                newbalance = parseInt(uangsekarang) + parseInt(uang);
+                console.log(newbalance)
+            }
+            const [resultnew] = await db.execute( //1 function
+                'UPDATE accounts SET balance = ? WHERE name = ?', [newbalance, name]
+            );
+            if(!resultnew){
+                console.log('Gagal melakukan deposit');
+            }else{
+                console.log('Berhasil melakukan deposit');
+            }
         }
 
         // console.log('Apa yang ingin anda lakukan selanjutnya?')
@@ -60,7 +76,7 @@ async function login() {
         // const number = readline.question('Masukkan anka sesuai dengan menu yang tersedia: ');
     } catch (error) {
         console.log('Akun tidak ditemukan, silahkan login kembali', error.message)
-        exit;
+        // exit;
     }
 }
 
