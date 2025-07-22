@@ -41,6 +41,7 @@ async function login() {
         }else if(number === '2'){
             await deposit(name);
         }
+        
 
         // console.log('Apa yang ingin anda lakukan selanjutnya?')
         // console.log('2. Deposit')
