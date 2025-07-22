@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 // const login = require('./login');
 const session = require('../session');
 
-async function balance() {
+async function balance(name) {
     const [result] = await db.execute(
         'SELECT * FROM accounts WHERE name=?', [name]
     );

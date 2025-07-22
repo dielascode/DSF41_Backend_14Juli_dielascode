@@ -36,7 +36,7 @@ async function login() {
         console.log('5. Keluar')
         const number = readline.question('Masukkan anka sesuai dengan menu yang tersedia: ');
         if (number === '1') {
-            await balance();
+            await balance(name);
         }else if(number === '2'){
             const uang = readline.question('Masukkan nominal uang yang ingin ditambahkan: ');
             const [result] = await db.execute(
