@@ -1,12 +1,13 @@
 const readline = require('readline-sync');
 const db = require('../db');
 const bcrypt = require('bcrypt');
-// const login = require('./login');
+const logout = require('./logout');
 const session = require('../session');
 const balance = require('./balance');
 const deposit = require('./deposit');
 const transfer = require('./transfer');
 const withdraw = require('./withdraw');
+const history = require('./history');
 
 async function login() {
     console.log('Login ke akun anda terlebih dahulu, dengan nama dan pin yang anda masukkan tadi');
@@ -48,9 +49,9 @@ async function login() {
         }else if(number === '4'){
             await withdraw(name);
         }else if(number === '5'){
-            // await history(name);
+            await history(name);
         }else if(number === '6'){
-            // await logout
+            await logout
         }else{
             console.log('Menu tidak tersedia');
         }
@@ -64,7 +65,6 @@ async function login() {
         // const number = readline.question('Masukkan anka sesuai dengan menu yang tersedia: ');
     } catch (error) {
         console.log('Akun tidak ditemukan, silahkan login kembali', error.message)
-        // exit;
     }
 }
 
