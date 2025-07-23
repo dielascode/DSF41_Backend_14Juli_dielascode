@@ -15,7 +15,6 @@ async function transfer(name) {
         console.log('Gak ada akunnya');
         exit;
     }
-    console.log(penerima)
     let [pengirim] = await db.execute(
         'SELECT * FROM accounts WHERE name=?', [name]
     );

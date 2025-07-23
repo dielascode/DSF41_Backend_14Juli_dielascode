@@ -6,6 +6,7 @@ const session = require('../session');
 const balance = require('./balance');
 const deposit = require('./deposit');
 const transfer = require('./transfer');
+const withdraw = require('./withdraw');
 
 async function login() {
     console.log('Login ke akun anda terlebih dahulu, dengan nama dan pin yang anda masukkan tadi');
@@ -45,7 +46,7 @@ async function login() {
         }else if(number === '3'){
             await transfer(name);
         }else if(number === '4'){
-            // await withdraw(name);
+            await withdraw(name);
         }else if(number === '5'){
             // await history(name);
         }else if(number === '6'){
